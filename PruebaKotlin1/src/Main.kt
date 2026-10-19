@@ -132,9 +132,10 @@ fun ejercicio11() {
 fun ejercicio12() {
     print("Introduce un més (del 1 al 12): ")
     val mes = readln().toInt()
+    val meses = arrayOf("enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre")
     when (mes) {
-        1,3,5,7,8,10,12 -> println("Tiene 31 días")
-        4,6,9,11 -> print("Tiene 30 días")
-        2 -> println("Tiene 28/29 días")
+        1,3,5,7,8,10,12 -> println("El mes de ${meses[mes]} tiene 31 días")
+        4,6,9,11 ->  println("El mes de ${meses[mes]} tiene 30 días")
+        2 ->  println("El mes de ${meses[mes]} tiene 28/29 días")
     }
 }
