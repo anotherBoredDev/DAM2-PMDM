@@ -103,10 +103,11 @@ private fun FormularioRegistro(modifier: Modifier = Modifier) {
     val aceptarTerminosError = !aceptarTerminos;
 
     // Mensaje de resultado y envío
-    var mensaje by remember { mutableStateOf("") }
-    var intentoEnvio by remember { mutableStateOf(false) }
     val formularioValido =
-        !nombreError && !emailError && !passwordError && !edadNoNumeroError && edadFueraRangoError && !telefonoError && !aceptarTerminosError
+        !nombreError && !emailError && !passwordError && !edadNoNumeroError && !edadFueraRangoError && !telefonoError && !aceptarTerminosError
+    var intentoEnvio by remember { mutableStateOf(false) }
+    var registroValido by remember { mutableStateOf(false) }
+    var mensaje by remember { mutableStateOf("") }
 
     Box(modifier = modifier.fillMaxSize()) {
         Image(
@@ -132,7 +133,7 @@ private fun FormularioRegistro(modifier: Modifier = Modifier) {
                 value = nombre,
                 onValueChange = { nombre = it },
                 label = { Text("Nombre") },
-                placeholder =  { Text("Escribe tu nombre...") },
+                placeholder = { Text("Escribe tu nombre...") },
                 singleLine = true,
                 isError = intentoEnvio && nombreError,
                 supportingText = {
@@ -284,11 +285,17 @@ private fun FormularioRegistro(modifier: Modifier = Modifier) {
                 }
             }
 
+            // Enviar
             Button(
                 onClick = {
                     intentoEnvio = true
-                    mensaje =
-                        "$nombre $apellidos con email $email, teléfono $telefono y $edad años ha sido registrado en la modalidad $modalidad."
+                    if (formularioValido) {
+                        registroValido = true
+                        mensaje =
+                            "$nombre $apellidos, con email $email, teléfono $telefono y $edad años, ha sido registrado en $curso con la modalidad $modalidad."
+                    } else {
+                        mensaje = ""
+                    }
                 },
                 modifier = Modifier.fillMaxWidth()
 
@@ -296,7 +303,7 @@ private fun FormularioRegistro(modifier: Modifier = Modifier) {
                 Text("Registrarse")
             }
 
-            if (intentoEnvio && formularioValido) {
+            if (registroValido) {
                 Text(mensaje)
             }
         }
